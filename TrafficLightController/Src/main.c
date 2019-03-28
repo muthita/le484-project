@@ -152,9 +152,60 @@ void SystemClock_Config(void)
   */
 static void MX_GPIO_Init(void)
 {
+  GPIO_InitTypeDef GPIO_InitStruct = {0};
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOE_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
+  __HAL_RCC_GPIOD_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOC, YELLOW_LAMP_Pin|GREEN_LAMP_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(RED_LAMP_GPIO_Port, RED_LAMP_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : MODE_SW_Pin MODE_SW2_Pin MODE_SW3_Pin */
+  GPIO_InitStruct.Pin = MODE_SW_Pin|MODE_SW2_Pin|MODE_SW3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : YELLOW_LAMP_Pin GREEN_LAMP_Pin */
+  GPIO_InitStruct.Pin = YELLOW_LAMP_Pin|GREEN_LAMP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON1_Pin */
+  GPIO_InitStruct.Pin = BUTTON1_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BUTTON1_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : RED_LAMP_Pin */
+  GPIO_InitStruct.Pin = RED_LAMP_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(RED_LAMP_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : BUTTON2_Pin */
+  GPIO_InitStruct.Pin = BUTTON2_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(BUTTON2_GPIO_Port, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : WALK_Pin DONT_WALK_Pin */
+  GPIO_InitStruct.Pin = WALK_Pin|DONT_WALK_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Alternate = GPIO_AF15_EVENTOUT;
+  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
 }
 
